@@ -1,0 +1,27 @@
+main{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+section{
+    width: fit-content;
+}
+
+h2{
+    padding: 0 0 20px 0;
+}
+
+form{
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 20px;
+}
+
+form > input, textarea, button{
+    padding: 5px;
+    width: 100%;
+}
+

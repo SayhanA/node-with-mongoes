@@ -1,0 +1,28 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/styles/shop.css" />
+<head>
+  <body>
+    <%- include('../includes/nav.ejs') %>
+    <main>
+      <% if(props){ %>
+      <article class="card">
+        <img
+          src="<%= props.imageUrl %>"
+          alt="This product is <%= props.name %>"
+        />
+        <div class="card_content">
+          <h3><%= props.name %></h3>
+          <p><%= props.description %></p>
+          <strong><%= props.price %></strong>
+          <div class="card-actions">
+            <a href="/product/<%= props._id %>">Details</a>
+            <%- include("../includes/add-to-cart.ejs") %>
+          </div>
+        </div>
+      </article>
+      <% } else{ %>
+      <h3>No Product Found</h3>
+      <% } %> <%- include('../includes/end.ejs') %>
+    </main>
+  </body>
+</head>

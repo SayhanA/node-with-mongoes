@@ -1,0 +1,91 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/styles/shop.css" />
+<style>
+  .order-container {
+    background-color: #fff;
+    padding: 20px 20px 100px 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .order-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .order-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+  }
+  .order-item img {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 4px;
+  }
+  .order-item-details {
+    flex: 1;
+  }
+  .order-item-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .order-item-description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  .order-item-price {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  .order-item-quantity {
+    font-size: 14px;
+    color: #777;
+  }
+  .order-total {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 20px;
+  }
+</style>
+<head>
+  <body>
+    <%- include('../includes/nav.ejs') %>
+    <main>
+      <% props.length <= 0 ? "<h3>This is order page.</h3>" : "" %>
+
+      <% props.forEach(order => { %>
+      <div class="order-container">
+        <% order.items.forEach(item => { %>
+        <div class="order-item">
+          <img src="<%= item.imageUrl %>" alt="<%= props.title %>" />
+          <div class="order-item-details">
+            <div class="order-item-title"><%= item.title %></div>
+            <div class="order-item-description"><%= item.description %></div>
+            <div class="order-item-price">Price: $<%= item.price %></div>
+            <div class="order-item-quantity">
+              Quantity: <%= item.quantity %>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+      <% }) %>
+
+      <div class="order-total">
+        Total: $<%= props.reduce((total, item) => total + (parseInt(props.price)
+        * parseInt(props.quantity)), 0) %>
+      </div>
+    </main>
+  </body>
+</head>

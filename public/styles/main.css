@@ -1,0 +1,67 @@
+:root {
+  --primary: rgb(1, 82, 1);
+  --active: yellow;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Courier New", Courier, monospace;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+.btn {
+  padding: 5px 10px;
+}
+
+.btn:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+header {
+  height: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary);
+}
+
+nav {
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 40px;
+  display: flex;
+  gap: 30px;
+}
+
+nav > ul {
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 40px;
+  display: flex;
+  gap: 30px;
+}
+
+nav > ul > li > a {
+  font-weight: 700;
+  color: white;
+}
+
+main {
+  padding: 40px;
+  min-height: 80vh;
+}
+
+.active {
+  color: var(--active);
+}

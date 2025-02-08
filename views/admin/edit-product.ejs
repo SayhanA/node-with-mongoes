@@ -1,0 +1,58 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/styles/add-product.css" />
+<head>
+  <body>
+    <%- include('../includes/nav.ejs') %>
+    <main>
+      <section>
+        <h2>Add you product</h2>
+        <form
+          action="<%if(edit){%>/admin/edit-product<%} else{%>/admin/add-product<%}%>"
+          method="POST"
+        >
+          <input
+            type="text"
+            name="title"
+            id="title"
+            autocomplete="title"
+            placeholder="Product Title"
+            value="<%= edit ? props.title : '' %>"
+          />
+          <input
+            type="text"
+            name="imageUrl"
+            id="imageUrl"
+            autocomplete="imageUrl"
+            placeholder="Image URL"
+            value="<%= edit ? props.imageUrl : '' %>"
+          />
+          <input
+            type="number"
+            name="price"
+            id="price"
+            autocomplete="price"
+            placeholder="Product Price"
+            value="<%= edit ? props.price : '' %>"
+          />
+          <textarea
+            name="description"
+            id="description"
+            placeholder="Product description"
+          >
+<% if (edit) { %><%= props.description %><% } %></textarea
+          >
+
+          <% if(edit){ %>
+          <input type="hidden" name="id" id="id" value="<%= props._id %>" /> <%
+          } %>
+
+          <button type="submit">
+            <%if(edit){%>Update Product<%} else{%>Add to produc"<%}%>
+          </button>
+        </form>
+      </section>
+
+      <%- include('../includes/end.ejs') %>
+    </main>
+  </body>
+</head>

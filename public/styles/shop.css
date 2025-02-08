@@ -1,0 +1,54 @@
+.card_container{
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 30px;
+}
+
+.card{
+    max-width: 350px;
+    flex: 1 1 300px;
+    max-height: 500px;
+    overflow: hidden;
+}
+
+.card>img{
+    max-width: 350px;
+    width: 300px;
+    height: 250px;
+    object-position: center;
+    margin: auto;
+    max-height: 300px;
+    object-fit: contain;
+}
+
+.card_content{
+    padding: 10px;
+}
+
+.card_content > h3, p{
+    padding: 5px 0;
+}
+
+.card_content>button{
+    margin: auto 0 0 0;
+    padding: 5px 10px;
+}
+
+.card-actions {
+    width: fit-content;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .card-actions > a,button{
+    padding: 5px 10px;
+    border: 1px solid black;
+    border-radius: 3px;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+  }

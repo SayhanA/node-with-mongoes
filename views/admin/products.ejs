@@ -1,0 +1,36 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/styles/shop.css" />
+<link rel="stylesheet" href="/styles/delete-product.css" />
+<head>
+  <body>
+    <%- include('../includes/nav.ejs') %>
+    <main>
+      <% if(props?.length > 0){ %>
+      <div class="card_container">
+        <% props.forEach(product => { %>
+        <article class="card">
+          <img
+            src="<%= product.imageUrl %>"
+            alt="This product is <%= product.name %>"
+          />
+          <div class="card_content">
+            <h3><%= product.title %></h3>
+            <p><%= product.description %></p>
+            <strong><%= product.price %></strong>
+            <div class="card-actions">
+              <a href="/admin/edit-product/<%= product._id %>?edit=true">Edit</a>
+              <form action="/admin/delete-product" method="POST">
+                <input type="hidden" name="id" value="<%= product._id %>" />
+                <button type="submit">Delete</button>
+              </form>
+            </div>
+          </div>
+        </article>
+        <% }) %>
+      </div>
+      <% } else{ %>
+      <h3>No Product Found</h3>
+      <% } %> <%- include('../includes/end.ejs') %>
+    </main>
+  </body>
+</head>
