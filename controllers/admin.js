@@ -75,7 +75,7 @@ const postEditProduct = (req, res, next) => {
 
 const deleteProduct = (req, res, next) => {
   const { id } = req.body;
-  Products.deleteById(id)
+  Products.findByIdAndDelete(id)
     .then((product) => {
       console.log(product);
     })
