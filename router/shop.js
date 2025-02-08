@@ -19,15 +19,15 @@ route.get("/products", getProductList);
 
 route.get("/product/:productId", getProductById);
 
-route.get("/cart", getCart);
+// route.get("/cart", getCart);
 
-route.post("/cart", postCart);
+// route.post("/cart", postCart);
 
-route.post("/cart-delete-item", postDeleteCart);
+// route.post("/cart-delete-item", postDeleteCart);
 
-route.post("/orders", postOrder);
+// route.post("/orders", postOrder);
 
-route.get("/orders", getOrder);
+// route.get("/orders", getOrder);
 
 // route.get("/checkout", getCheckout);
 

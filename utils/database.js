@@ -10,7 +10,7 @@ const mongoConnect = (callback) => {
     `mongodb+srv://${process.env.DATABASE_NAME}:${process.env.DATABASE_PASSWORD}@sayhan.fatp7.mongodb.net/test?retryWrites=true&w=majority&appName=Sayhan`
   )
     .then((client) => {
-      console.log("Database connected"); 
+      console.log("Database connected");
       _db = client.db();
       callback(client);
     })

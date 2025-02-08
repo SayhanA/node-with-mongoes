@@ -13,9 +13,9 @@
             alt="This product is <%= product.name %>"
           />
           <div class="card_content">
-            <h3><%= product.description %></h3>
+            <h3><%= product.title %></h3>
             <p><%= product.description %></p>
-            <strong><%= product.price %></strong>
+            <strong>Price: <%= product.price %></strong>
             <div class="card-actions">
               <a href="/product/<%= product.id %>">Details</a>
               <%- include("../includes/add-to-cart.ejs", {props:product}) %>
