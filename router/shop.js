@@ -19,9 +19,9 @@ route.get("/products", getProductList);
 
 route.get("/product/:productId", getProductById);
 
-// route.get("/cart", getCart);
+route.get("/cart", getCart);
 
-// route.post("/cart", postCart);
+route.post("/cart", postCart);
 
 // route.post("/cart-delete-item", postDeleteCart);
 

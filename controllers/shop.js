@@ -40,19 +40,18 @@ const getProductById = (req, res, next) => {
     });
 };
 
-const getCart = (req, res, next) => {
-  req.user
-    .getCart()
-    .then((products) => {
-      res.render("shop/cart", {
-        props: products,
-        pageTitle: "cart page | shop",
-        path: "/cart",
-      });
-    })
-    .catch((err) => {
-      throw new Error(err);
+const getCart = async (req, res, next) => {
+  try {
+    const cartItems = await req.user.populate("cart.items.productId");
+
+    res.render("shop/cart", {
+      props: cartItems.cart.items,
+      pageTitle: "Cart Page | Shop",
+      path: "/cart",
     });
+  } catch (err) {
+    next(err);
+  }
 };
 
 const postCart = (req, res, next) => {

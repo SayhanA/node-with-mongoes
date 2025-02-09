@@ -9,17 +9,17 @@
       <ul class="cart_list">
         <% props.forEach(product => { %>
         <li class="list_item">
-          <h3><%= product.title %></h3>
+          <h3><%= product.productId.title %></h3>
           <img
-            src="<%= product.imageUrl %>"
-            alt="This product is <%= product.name %>"
+            src="<%= product.productId.imageUrl %>"
+            alt="This product is <%= product.productId.name %>"
           />
-          <p><%= product.description %></p>
-          <strong><%= product.price %></strong>
+          <p><%= product.productId.description %></p>
+          <strong><%= product.productId.price %></strong>
           <p>*</p>
           <strong><%= product.quantity %></strong>
           <p>=</p>
-          <strong><%= product.quantity*product.price %></strong>
+          <strong><%= product.productId.quantity*product.productId.price %></strong>
           <form action="/cart-delete-item" method="POST">
             <input type="hidden" name="id" value="<%= product._id %>" />
             <button type="submit" class="btn">Delete</button>
