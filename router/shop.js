@@ -25,7 +25,7 @@ route.post("/cart", postCart);
 
 route.post("/cart-delete-item", postDeleteCart);
 
-// route.post("/orders", postOrder);
+route.post("/orders", postOrder);
 
 // route.get("/orders", getOrder);
 

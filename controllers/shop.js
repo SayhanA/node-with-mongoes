@@ -1,4 +1,5 @@
 const Products = require("../models/products");
+const Order = require("../models/order");
 
 const getIndex = (req, res, next) => {
   Products.find()
@@ -81,16 +82,36 @@ const postDeleteCart = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-const postOrder = (req, res, next) => {
-  req.user
-    .addOrder()
-    .then((order) => {
-      console.log({ "Orders list": order });
-      res.redirect("/orders");
-    })
-    .catch((err) => {
-      console.log(err);
+const postOrder = async (req, res, next) => {
+  try {
+    await req.user.populate("cart.items.productId");
+
+    console.log("Product items:", req.user.cart.items);
+
+    const productArr = req.user.cart.items.map((item) => ({
+      product: { ...item.productId._doc },
+      quantity: item.quantity,
+    }));
+
+    console.log({ productArr });
+
+    const order = new Order({
+      user: {
+        name: req.user.name,
+        userId: req.user._id,
+      },
+      products: productArr,
     });
+
+    await req.user.clearCart();
+
+    await order.save();
+
+    console.log({ "Orders list": order });
+    res.redirect("/orders");
+  } catch (err) {
+    next(err);
+  }
 };
 
 const getOrder = (req, res, next) => {
