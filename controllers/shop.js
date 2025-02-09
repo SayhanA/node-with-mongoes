@@ -115,9 +115,9 @@ const postOrder = async (req, res, next) => {
 };
 
 const getOrder = (req, res, next) => {
-  req.user
-    .getOrder()
+  Order.find({ "user.userId": req.user._id })
     .then((order) => {
+      console.log(order);
       res.render("shop/orders", {
         props: order,
         pageTitle: "Your Orders | shop",

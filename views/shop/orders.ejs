@@ -66,13 +66,13 @@
 
       <% props.forEach(order => { %>
       <div class="order-container">
-        <% order.items.forEach(item => { %>
+        <% order.products.forEach(item => { %>
         <div class="order-item">
-          <img src="<%= item.imageUrl %>" alt="<%= props.title %>" />
+          <img src="<%= item.product.imageUrl %>" alt="<%= props.title %>" />
           <div class="order-item-details">
-            <div class="order-item-title"><%= item.title %></div>
-            <div class="order-item-description"><%= item.description %></div>
-            <div class="order-item-price">Price: $<%= item.price %></div>
+            <div class="order-item-title"><%= item.product.title %></div>
+            <div class="order-item-description"><%= item.product.description %></div>
+            <div class="order-item-price">Price: $<%= item.product.price %></div>
             <div class="order-item-quantity">
               Quantity: <%= item.quantity %>
             </div>
