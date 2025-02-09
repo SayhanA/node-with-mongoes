@@ -23,7 +23,7 @@ route.get("/cart", getCart);
 
 route.post("/cart", postCart);
 
-// route.post("/cart-delete-item", postDeleteCart);
+route.post("/cart-delete-item", postDeleteCart);
 
 // route.post("/orders", postOrder);
 
