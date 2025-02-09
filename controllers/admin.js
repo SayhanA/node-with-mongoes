@@ -26,6 +26,7 @@ const postProduct = (req, res, next) => {
     description: req.body.description,
     imageUrl: req.body.imageUrl,
     price: req.body.price,
+    userId: req.user    
   });
   product
     .save()
