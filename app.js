@@ -4,11 +4,13 @@ const path = require("path");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 8000;
-const adminRoute = require("./router/admin.js");
-const shopRoute = require("./router/shop.js");
 const { get404 } = require("./controllers/404.js");
 const User = require("./models/user.js");
 const mongoes = require("mongoose");
+
+const adminRoute = require("./router/admin.js");
+const shopRoute = require("./router/shop.js");
+const authRoute = require("./router/auth.js");
 
 const app = express();
 
@@ -31,6 +33,7 @@ app.use((req, res, next) => {
 
 app.use("/admin", adminRoute);
 app.use("/", shopRoute);
+app.use("/", authRoute);
 
 app.use(get404);
 

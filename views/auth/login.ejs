@@ -1,0 +1,69 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/styles/shop.css" />
+<style>
+  main {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+  }
+  section {
+    width: fit-content;
+    padding: 40px;
+    display: flex;
+    flex-flow: column;
+    gap: 20px;
+    align-items: center;
+    /* border: 1px solid gray;
+    border-radius: 20px; */
+  }
+  form {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    gap:20px;
+  }
+
+  form>div>label{
+    display: block;
+    width: 100%;
+  }
+
+  form > div > input{
+    width: 100%;
+    margin: 5px 0 0 0;
+    padding: 5px;
+  }
+
+  lavel[for="password"] {
+    margin-top: 10px;
+  }
+
+</style>
+<head>
+  <body>
+    <%- include('../includes/nav.ejs') %>
+    <main>
+      <section>
+        <h2>Login</h2>
+        <form action="/login" method="POST">
+          <div>
+            <label for="email">Email:</label>
+            <input type="text" name="email" id="email" placeholder="Email" />
+          </div>
+
+          <div>
+            <label for="password">Password:</label>
+            <input type="text" name="password" id="password" placeholder="Password" />
+          </div>
+
+          <button type="submit">Login</button>
+        </form>
+        <div>
+          Don't have an account?
+          <a href="/signUp">signUp</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</head>

@@ -52,7 +52,7 @@ nav > ul {
   gap: 30px;
 }
 
-nav > ul > li > a {
+nav > ul > li > a, nav > a {
   font-weight: 700;
   color: white;
 }
