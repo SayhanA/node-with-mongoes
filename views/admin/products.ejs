@@ -17,13 +17,17 @@
             <h3><%= product.title %></h3>
             <p><%= product.description %></p>
             <strong><%= product.price %></strong>
+            <% if(isAuthenticated){ %>
             <div class="card-actions">
-              <a href="/admin/edit-product/<%= product._id %>?edit=true">Edit</a>
+              <a href="/admin/edit-product/<%= product._id %>?edit=true"
+                >Edit</a
+              >
               <form action="/admin/delete-product" method="POST">
                 <input type="hidden" name="id" value="<%= product._id %>" />
                 <button type="submit">Delete</button>
               </form>
             </div>
+            <%}%>
           </div>
         </article>
         <% }) %>

@@ -41,11 +41,13 @@ nav {
   max-width: 1800px;
   margin: 0 40px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 30px;
 }
 
 nav > ul {
-  width: 100%;
+  width: fit-content;
   max-width: 1800px;
   margin: 0 40px;
   display: flex;

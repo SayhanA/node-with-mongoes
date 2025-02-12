@@ -1,3 +1,4 @@
+<% if(isAuthenticated){ %>
 <form action="/cart" method="POST" class="card-actions">
   <button class="btn" type="submit">Add To Cart</button>
   <input
@@ -7,3 +8,4 @@
     value="<%= props._id %>"
   />
 </form>
+<%}%>

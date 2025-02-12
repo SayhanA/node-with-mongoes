@@ -1,3 +1,5 @@
+const User = require("../models/user");
+
 const getLogin = (req, res, next) => {
   console.log(req.session.isLoggedIn);
   res.render("auth/login", {
@@ -8,8 +10,25 @@ const getLogin = (req, res, next) => {
 };
 
 const postLogin = (req, res, next) => {
-  req.session.isLoggedIn = true;
-  res.redirect("/");
+  User.findById("67a7e00ae3111519c9e58d7d")
+    .then((user) => {
+      req.session.isLoggedIn = true;
+      req.session.user = user;
+      req.session.save((err) => {
+        console.log(err);
+        res.redirect("/");
+      });
+    })
+    .catch((err) => {
+      throw new Error(err);
+    });
 };
 
-module.exports = { getLogin, postLogin };
+const postLogout = (req, res, next) => {
+  req.session.destroy((err) => {
+    console.log(err);
+    res.redirect("/");
+  });
+};
+
+module.exports = { getLogin, postLogin, postLogout };
