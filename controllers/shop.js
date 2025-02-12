@@ -2,12 +2,14 @@ const Products = require("../models/products");
 const Order = require("../models/order");
 
 const getIndex = (req, res, next) => {
+  console.log("isLoggedIn:",req.session.isLoggedIn);
   Products.find()
     .then((products) => {
       res.render("shop/index", {
         pageTitle: "Index page | shop",
         props: products,
         path: "/",
+        isAuthenticated: false,
       });
     })
     .catch((err) => console.log(err));
@@ -20,6 +22,7 @@ const getProductList = (req, res, next) => {
         pageTitle: "products-list page | shop",
         props: data,
         path: "/products",
+        isAuthenticated: req.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -34,6 +37,7 @@ const getProductById = (req, res, next) => {
         props: product,
         pageTitle: product?.name,
         path: "/products",
+        isAuthenticated: req.isLoggedIn,
       });
     })
     .catch((err) => {
@@ -49,6 +53,7 @@ const getCart = async (req, res, next) => {
       props: cartItems.cart.items,
       pageTitle: "Cart Page | Shop",
       path: "/cart",
+      isAuthenticated: req.isLoggedIn,
     });
   } catch (err) {
     next(err);
@@ -122,6 +127,7 @@ const getOrder = (req, res, next) => {
         props: order,
         pageTitle: "Your Orders | shop",
         path: "/orders",
+        isAuthenticated: req.isLoggedIn,
       });
     })
     .catch((err) => {

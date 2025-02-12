@@ -5,6 +5,7 @@ const getProductForm = (req, res, next) => {
     pageTitle: "Add Product Form",
     path: "/admin/add-product",
     edit: false,
+    isAuthenticated: req.isLoggedIn
   });
 };
 
@@ -15,6 +16,7 @@ const getProducts = (req, res, next) => {
         pageTitle: "products page | admin",
         props: product,
         path: "/admin/products",
+        isAuthenticated: req.isLoggedIn
       });
     })
     .catch((err) => console.error(err));
@@ -49,6 +51,7 @@ const getEditProduct = (req, res, next) => {
         path: "admin/edit-product",
         props: product,
         edit: editMode,
+        isAuthenticated: req.isLoggedIn
       });
     })
     .catch((err) => {
