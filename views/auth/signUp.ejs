@@ -1,0 +1,87 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/styles/shop.css" />
+<style>
+  main {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+  }
+  section {
+    width: fit-content;
+    padding: 40px;
+    display: flex;
+    flex-flow: column;
+    gap: 20px;
+    align-items: center;
+    /* border: 1px solid gray;
+    border-radius: 20px; */
+  }
+  form {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    gap: 20px;
+  }
+
+  form > div > label {
+    display: block;
+    width: 100%;
+  }
+
+  form > div > input {
+    width: 100%;
+    margin: 5px 0 0 0;
+    padding: 5px;
+  }
+
+  lavel[for="password"] {
+    margin-top: 10px;
+  }
+</style>
+<head>
+  <body>
+    <%- include('../includes/nav.ejs') %>
+    <main>
+      <section>
+        <h2>SignUp</h2>
+        <form action="/signup" method="POST">
+          <div>
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name" placeholder="Name" />
+          </div>
+          <div>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" placeholder="Email" />
+          </div>
+
+          <div>
+            <label for="password">Password:</label>
+            <input
+              type="text"
+              name="password"
+              id="password"
+              placeholder="Password"
+            />
+          </div>
+
+          <div>
+            <label for="confirm_password">Confirm Password:</label>
+            <input
+              type="text"
+              name="confirm_password"
+              id="confirm_password"
+              placeholder="Confirm Password"
+            />
+          </div>
+
+          <button type="submit">SignUp</button>
+        </form>
+        <div>
+          Already have an account?
+          <a href="/login">login</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</head>

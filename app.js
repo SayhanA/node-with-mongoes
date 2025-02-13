@@ -60,23 +60,6 @@ app.use(get404);
 mongoes
   .connect(MONGODBURI)
   .then(() => {
-    User.find()
-      .then((result) => {
-        User.findOne().then((user) => {
-          if (!user) {
-            const user = new User({
-              name: "user",
-              email: "user@test.com",
-              cart: { items: [] },
-            });
-            user.save();
-          }
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
     app.listen(PORT, () =>
       console.log(`Server is running on: http://localhost:${PORT}`)
     );
