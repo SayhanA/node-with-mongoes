@@ -1,15 +1,17 @@
 const Products = require("../models/products");
 const Order = require("../models/order");
+const csurf = require("csurf");
 
 const getIndex = (req, res, next) => {
-  console.log("isLoggedIn:", req.session.isLoggedIn);
+  console.log("csurf Token:", req.csrfToken());
   Products.find()
     .then((products) => {
       res.render("shop/index", {
         pageTitle: "Index page | shop",
         props: products,
         path: "/",
-        isAuthenticated: req.session.isLoggedIn,
+        // isAuthenticated: req.session.isLoggedIn,
+        // csrfToken: req.csrfToken(),
       });
     })
     .catch((err) => console.log(err));
@@ -30,7 +32,7 @@ const getProductList = (req, res, next) => {
 
 const getProductById = (req, res, next) => {
   const id = req?.params?.productId;
-  const productById = Products.findById(id)
+  Products.findById(id)
     .then((product) => {
       console.log(product);
       res.render("shop/product-detail", {

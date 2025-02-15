@@ -5,6 +5,7 @@ require("dotenv").config();
 const mongoes = require("mongoose");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
+const csrf = require("csurf");
 
 const PORT = process.env.PORT || 8000;
 const { get404 } = require("./controllers/404.js");
@@ -22,6 +23,8 @@ const store = new MongoDBStore({
   collection: "session",
 });
 
+const csrfProtection = csrf();
+
 app.set("view engine", "ejs");
 app.set("views", "views");
 
@@ -36,6 +39,8 @@ app.use(
   })
 );
 
+app.use(csrfProtection);
+
 app.use((req, res, next) => {
   if (!req.session.user) {
     return next();
@@ -49,6 +54,12 @@ app.use((req, res, next) => {
         throw new Error(err);
       });
   }
+});
+
+app.use((req, res, next) => {
+  (res.locals.isAuthenticated = req.session.isLoggedIn),
+    (res.locals.csrfToken = req.csrfToken()),
+    next();
 });
 
 app.use("/admin", adminRoute);

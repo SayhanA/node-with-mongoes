@@ -12,10 +12,10 @@ route.get("/login", getLogin);
 
 route.post("/login", postLogin);
 
-route.post("/logout", postLogout);
-
 route.get("/signup", getSignUp);
 
 route.post("/signup", postSignUp);
 
+route.post("/logout", postLogout);
+ 
 module.exports = route;

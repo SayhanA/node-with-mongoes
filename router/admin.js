@@ -10,16 +10,18 @@ const {
 
 const route = require("express").Router();
 
-route.get("/add-product", getProductForm);
+const isAuth = require("../middleware/is-auth");
 
-route.get("/products", getProducts);
+route.get("/add-product", isAuth, getProductForm);
 
-route.post("/add-product", postProduct);
+route.get("/products", isAuth, getProducts);
 
-route.get("/edit-product/:productId", getEditProduct);
+route.post("/add-product", isAuth, postProduct);
 
-route.post("/edit-product", postEditProduct);
+route.get("/edit-product/:productId", isAuth, getEditProduct);
 
-route.post("/delete-product", deleteProduct);
+route.post("/edit-product", isAuth, postEditProduct);
+
+route.post("/delete-product", isAuth, deleteProduct);
 
 module.exports = route;

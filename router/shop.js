@@ -12,6 +12,7 @@ const {
 } = require("../controllers/shop");
 
 const route = require("express").Router();
+const isAuth = require("../middleware/is-auth");
 
 route.get("/", getIndex);
 
@@ -19,15 +20,15 @@ route.get("/products", getProductList);
 
 route.get("/product/:productId", getProductById);
 
-route.get("/cart", getCart);
+route.get("/cart", isAuth, getCart);
 
-route.post("/cart", postCart);
+route.post("/cart", isAuth, postCart);
 
-route.post("/cart-delete-item", postDeleteCart);
+route.post("/cart-delete-item", isAuth, postDeleteCart);
 
-route.post("/orders", postOrder);
+route.post("/orders", isAuth, postOrder);
 
-route.get("/orders", getOrder);
+route.get("/orders", isAuth, getOrder);
 
 // route.get("/checkout", getCheckout);
 

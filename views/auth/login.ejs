@@ -21,15 +21,15 @@
     width: 100%;
     display: flex;
     flex-flow: column;
-    gap:20px;
+    gap: 20px;
   }
 
-  form>div>label{
+  form > div > label {
     display: block;
     width: 100%;
   }
 
-  form > div > input{
+  form > div > input {
     width: 100%;
     margin: 5px 0 0 0;
     padding: 5px;
@@ -38,7 +38,6 @@
   lavel[for="password"] {
     margin-top: 10px;
   }
-
 </style>
 <head>
   <body>
@@ -54,9 +53,15 @@
 
           <div>
             <label for="password">Password:</label>
-            <input type="text" name="password" id="password" placeholder="Password" />
+            <input
+              type="text"
+              name="password"
+              id="password"
+              placeholder="Password"
+            />
           </div>
 
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <button type="submit">Login</button>
         </form>
         <div>
