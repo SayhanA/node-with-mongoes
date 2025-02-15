@@ -10,8 +10,6 @@ const getIndex = (req, res, next) => {
         pageTitle: "Index page | shop",
         props: products,
         path: "/",
-        // isAuthenticated: req.session.isLoggedIn,
-        // csrfToken: req.csrfToken(),
       });
     })
     .catch((err) => console.log(err));
@@ -24,7 +22,6 @@ const getProductList = (req, res, next) => {
         pageTitle: "products-list page | shop",
         props: data,
         path: "/products",
-        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => console.log(err));
@@ -39,7 +36,6 @@ const getProductById = (req, res, next) => {
         props: product,
         pageTitle: product?.name,
         path: "/products",
-        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => {
@@ -55,7 +51,6 @@ const getCart = async (req, res, next) => {
       props: cartItems.cart.items,
       pageTitle: "Cart Page | Shop",
       path: "/cart",
-      isAuthenticated: req.session.isLoggedIn,
     });
   } catch (err) {
     next(err);
@@ -129,7 +124,6 @@ const getOrder = (req, res, next) => {
         props: order,
         pageTitle: "Your Orders | shop",
         path: "/orders",
-        isAuthenticated: req.session.isLoggedIn,
       });
     })
     .catch((err) => {

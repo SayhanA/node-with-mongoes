@@ -7,6 +7,7 @@ const getLogin = (req, res, next) => {
     pageTitle: "Login | shop",
     path: "/login",
     isAuthenticated: false,
+    errorMessage: req.flash('error')
   });
 };
 
@@ -15,6 +16,7 @@ const postLogin = (req, res, next) => {
   User.findOne({ email: email })
     .then((user) => {
       if (!user) {
+        req.flash("error", "Invalid email or password");
         return res.redirect("/login");
       }
 

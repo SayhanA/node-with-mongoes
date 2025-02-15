@@ -21,6 +21,7 @@
           <p>=</p>
           <strong><%= product.productId.quantity*product.productId.price %></strong>
           <form action="/cart-delete-item" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input type="hidden" name="id" value="<%= product.productId._id %>" />
             <button type="submit" class="btn">Delete</button>
           </form>
@@ -30,6 +31,7 @@
         <% } %>
       </ul>
       <form action="/orders" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <button type="submit">Order Now</button>
       </form>
 

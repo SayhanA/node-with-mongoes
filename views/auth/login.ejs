@@ -46,6 +46,9 @@
       <section>
         <h2>Login</h2>
         <form action="/login" method="POST">
+          <% if(errorMessage.length > 0){ %>
+          <div class="error"><%= errorMessage %></div>
+          <%}%>
           <div>
             <label for="email">Email:</label>
             <input type="text" name="email" id="email" placeholder="Email" />
