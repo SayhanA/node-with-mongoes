@@ -7,7 +7,7 @@ const getLogin = (req, res, next) => {
     pageTitle: "Login | shop",
     path: "/login",
     isAuthenticated: false,
-    errorMessage: req.flash('error')
+    errorMessage: req.flash("error"),
   });
 };
 
@@ -31,6 +31,7 @@ const postLogin = (req, res, next) => {
               return res.redirect("/");
             });
           } else {
+            req.flash("error", "Invalid email or password");
             return res.redirect("/login");
           }
         })
@@ -55,6 +56,7 @@ const getSignUp = (req, res, next) => {
     pageTitle: "SignUp | shop",
     path: "/signup",
     isAuthenticated: false,
+    errorMessage: req.flash("error"),
   });
 };
 
@@ -64,7 +66,8 @@ const postSignUp = (req, res, next) => {
   User.findOne({ email: email })
     .then((userDoc) => {
       if (userDoc) {
-        return res.redirect("/");
+        req.flash("error", "Email already exist.");
+        return res.redirect("/signup");
       }
       return bcrypt
         .hash(password, 12)
