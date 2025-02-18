@@ -125,6 +125,7 @@ const postReset = (req, res, next) => {
       res.redirect("/reset");
     }
     const token = buffer.toString("hex");
+    console.log("Getting token from post reset token request:   ", token);
 
     User.findOne({ email })
       .then((user) => {
@@ -137,7 +138,7 @@ const postReset = (req, res, next) => {
         return user.save();
       })
       .then(() => {
-        res.redirect("/");
+        res.redirect(`/newPassword/${token}`);
         transporter.sendMail({
           to: email,
           from: "sayhanahmed5@gmail.com",
@@ -156,6 +157,60 @@ const postReset = (req, res, next) => {
   });
 };
 
+const getNewPassword = (req, res, next) => {
+  const resetToken = req.params.token;
+
+  User.findOne({ resetToken, resetTokenExpiration: { $gt: Date.now() } })
+    .then((user) => {
+      console.log(user);
+      res.render("auth/newPassword", {
+        pageTitle: "New password | shop",
+        path: "newPassword",
+        errorMessage: req.flash("error"),
+        userId: user._id.toString(),
+        resetToken,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const postNewPassword = (req, res, next) => {
+  const { userId, resetToken, newPassword, confirmNewPassword } = req.body;
+  let updateUser;
+
+  if (newPassword !== confirmNewPassword) {
+    req.flash(
+      "error",
+      "Please make sure new password and confirm new password are same"
+    );
+    return res.redirect(`/newPassword/${resetToken}`);
+  }
+
+  User.findOne({
+    _id: userId,
+    resetToken,
+    resetTokenExpiration: { $gt: Date.now() },
+  })
+    .then((user) => {
+      updateUser = user;
+      return bcrypt.hash(newPassword, 12);
+    })
+    .then((hashedPassword) => {
+      updateUser.resetToken = undefined;
+      updateUser.resetTokenExpiration = undefined;
+      updateUser.password = hashedPassword;
+    })
+    .then(() => {
+      updateUser.save();
+      return res.redirect("/login");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 module.exports = {
   getLogin,
   postLogin,
@@ -164,4 +219,6 @@ module.exports = {
   postSignUp,
   getReset,
   postReset,
+  getNewPassword,
+  postNewPassword,
 };
