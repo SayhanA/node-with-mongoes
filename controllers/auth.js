@@ -1,5 +1,17 @@
+const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
+const nodemailer = require("nodemailer");
+const sendgridTransport = require("nodemailer-sendgrid-transport");
+
 const User = require("../models/user");
+
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key: process.env.SENDGRID_API_KEY,
+    },
+  })
+);
 
 const getLogin = (req, res, next) => {
   console.log(req.session.isLoggedIn);
@@ -82,6 +94,12 @@ const postSignUp = (req, res, next) => {
         })
         .then(() => {
           res.redirect("/login");
+          return transporter.sendMail({
+            to: email,
+            from: "sayhanahmed5@gmail.com",
+            subject: "Singup confirmation",
+            html: "<h1>Sign Up Successfull</h1>",
+          });
         });
     })
     .catch((err) => {
@@ -89,4 +107,61 @@ const postSignUp = (req, res, next) => {
     });
 };
 
-module.exports = { getLogin, postLogin, postLogout, getSignUp, postSignUp };
+const getReset = (req, res, next) => {
+  res.render("auth/reset", {
+    pageTitle: "Reset | shop",
+    path: "/reset",
+    errorMessage: req.flash("error"),
+  });
+};
+
+const postReset = (req, res, next) => {
+  const email = req.body.email;
+
+  crypto.randomBytes(32, (err, buffer) => {
+    if (err) {
+      console.log(err);
+      req.flash("error", "Failed to create crypto random bytes");
+      res.redirect("/reset");
+    }
+    const token = buffer.toString("hex");
+
+    User.findOne({ email })
+      .then((user) => {
+        if (!user) {
+          req.flash("error", "Please use a valid email");
+          return res.redirect("/reset");
+        }
+        user.resetToken = token;
+        user.resetTokenExpiration = Date.now() + 3600000;
+        return user.save();
+      })
+      .then(() => {
+        res.redirect("/");
+        transporter.sendMail({
+          to: email,
+          from: "sayhanahmed5@gmail.com",
+          subject: "Reset Password",
+          html: `
+          <p>You requrested a password reset</p>
+          <p>Click this link to <a href="http://localhost:5000/reset/${token}">reset</a> you password.</p>
+
+          `,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        req.flash("error", err.message);
+      });
+  });
+};
+
+module.exports = {
+  getLogin,
+  postLogin,
+  postLogout,
+  getSignUp,
+  postSignUp,
+  getReset,
+  postReset,
+};

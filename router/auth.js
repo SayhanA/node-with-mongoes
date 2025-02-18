@@ -4,6 +4,8 @@ const {
   postLogout,
   getSignUp,
   postSignUp,
+  getReset,
+  postReset,
 } = require("../controllers/auth");
 
 const route = require("express").Router();
@@ -17,5 +19,9 @@ route.get("/signup", getSignUp);
 route.post("/signup", postSignUp);
 
 route.post("/logout", postLogout);
- 
+
+route.get("/reset", getReset);
+
+route.post("/reset", postReset);
+
 module.exports = route;

@@ -38,24 +38,14 @@
   lavel[for="password"] {
     margin-top: 10px;
   }
-
-  .forgorPassword{
-    margin-left: auto;
-    width: fit-content;
-    color: blue;
-    font-size: small;
-    text-decoration: underline;
-    float: right;
-  }
-  
 </style>
 <head>
   <body>
     <%- include('../includes/nav.ejs') %>
     <main>
       <section>
-        <h2>Login</h2>
-        <form action="/login" method="POST">
+        <h2>Reset Password</h2>
+        <form action="/reset" method="POST">
           <% if(errorMessage.length > 0){ %>
           <div class="error"><%= errorMessage %></div>
           <%}%>
@@ -64,19 +54,8 @@
             <input type="text" name="email" id="email" placeholder="Email" />
           </div>
 
-          <div>
-            <label for="password">Password:</label>
-            <input
-              type="text"
-              name="password"
-              id="password"
-              placeholder="Password"
-            />
-            <a href="/reset" class='forgorPassword'>Forgot password</a>
-          </div>
-
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-          <button type="submit">Login</button>
+          <button type="submit">Reset Password</button>
         </form>
         <div>
           Don't have an account?
