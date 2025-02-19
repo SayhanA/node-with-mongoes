@@ -9,7 +9,7 @@ const getProductForm = (req, res, next) => {
 };
 
 const getProducts = (req, res, next) => {
-  Products.find()
+  Products.find({userId: req.user._id}) 
     .then((product) => {
       res.render("admin/products", {
         pageTitle: "products page | admin",
@@ -26,7 +26,7 @@ const postProduct = (req, res, next) => {
     description: req.body.description,
     imageUrl: req.body.imageUrl,
     price: req.body.price,
-    userId: req.user    
+    userId: req.user,
   });
   product
     .save()
@@ -60,14 +60,18 @@ const postEditProduct = (req, res, next) => {
   const productId = req.body.id;
   Products.findById(productId)
     .then((product) => {
+      console.log(product);
+      if (product.userId?.toString() !== req.user._id?.toString()) {
+        return res.redirect("/");
+      }
+
       (product.title = req.body.title),
         (product.description = req.body.description),
         (product.imageUrl = req.body.imageUrl),
         (product.price = req.body.price);
-      return product.save();
-    })
-    .then(() => {
-      res.redirect("/admin/products");
+      return product.save().then(() => {
+        res.redirect("/admin/products");
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -76,7 +80,7 @@ const postEditProduct = (req, res, next) => {
 
 const deleteProduct = (req, res, next) => {
   const { id } = req.body;
-  Products.findByIdAndDelete(id)
+  Products.deleteOne({ _id: id, userId: req.user._id })
     .then((product) => {
       console.log(product);
     })
