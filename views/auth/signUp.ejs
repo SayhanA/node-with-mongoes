@@ -45,7 +45,7 @@
     <main>
       <section>
         <h2>SignUp</h2>
-        <form action="/signup" method="POST">
+        <form action="/signup" method="POST" novalidate>
           <% if(errorMessage.length > 0){ %>
           <div class="error"><%= errorMessage %></div>
           <%}%>

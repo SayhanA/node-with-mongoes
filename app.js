@@ -16,7 +16,8 @@ const adminRoute = require("./router/admin.js");
 const shopRoute = require("./router/shop.js");
 const authRoute = require("./router/auth.js");
 
-const MONGODBURI = `mongodb+srv://${process.env.DATABASE_NAME}:${process.env.DATABASE_PASSWORD}@sayhan.fatp7.mongodb.net/shop?retryWrites=true&w=majority&appName=Sayhan`;
+// const MONGODBURI = `mongodb+srv://${process.env.DATABASE_NAME}:${process.env.DATABASE_PASSWORD}@sayhan.fatp7.mongodb.net/shop?retryWrites=true&w=majority&appName=Sayhan`;
+const MONGODBURI = "mongodb://localhost:27017/";
 
 const app = express();
 const store = new MongoDBStore({

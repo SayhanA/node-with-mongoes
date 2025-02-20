@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
+const { validationResult } = require("express-validator");
 
 const User = require("../models/user");
 
@@ -74,33 +75,37 @@ const getSignUp = (req, res, next) => {
 
 const postSignUp = (req, res, next) => {
   const { name, email, password, confirm_password } = req.body;
+  const validationError = validationResult(req);
+  console.log(validationError.array());
 
-  User.findOne({ email: email })
-    .then((userDoc) => {
-      if (userDoc) {
-        req.flash("error", "Email already exist.");
-        return res.redirect("/signup");
-      }
-      return bcrypt
-        .hash(password, 12)
-        .then((hashedPassword) => {
-          const user = new User({
-            name,
-            email,
-            password: hashedPassword,
-            cart: { items: [] },
-          });
-          return user.save();
-        })
-        .then(() => {
-          res.redirect("/login");
-          return transporter.sendMail({
-            to: email,
-            from: "sayhanahmed5@gmail.com",
-            subject: "Singup confirmation",
-            html: "<h1>Sign Up Successfull</h1>",
-          });
-        });
+  if (!validationError.isEmpty()) {
+    return res.status(422).render("auth/signUp", {
+      pageTitle: "SignUp | shop",
+      path: "/signup",
+      isAuthenticated: false,
+      errorMessage: validationError.array()[0].msg,
+    });
+  }
+
+  bcrypt
+    .hash(password, 12)
+    .then((hashedPassword) => {
+      const user = new User({
+        name,
+        email,
+        password: hashedPassword,
+        cart: { items: [] },
+      });
+      return user.save();
+    })
+    .then(() => {
+      res.redirect("/login");
+      return transporter.sendMail({
+        to: email,
+        from: "sayhanahmed5@gmail.com",
+        subject: "Singup confirmation",
+        html: "<h1>Sign Up Successfull</h1>",
+      });
     })
     .catch((err) => {
       console.log(err);
