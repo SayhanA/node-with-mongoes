@@ -1,0 +1,51 @@
+main {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+section {
+  width: fit-content;
+  padding: 40px;
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+  align-items: center;
+  /* border: 1px solid gray;
+    border-radius: 20px; */
+}
+form {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+}
+
+form > div > label {
+  display: block;
+  width: 100%;
+}
+
+form > div > input {
+  width: 100%;
+  margin: 5px 0 0 0;
+  padding: 5px;
+}
+
+lavel[for="password"] {
+  margin-top: 10px;
+}
+
+.forgorPassword {
+  margin-left: auto;
+  width: fit-content;
+  color: blue;
+  font-size: small;
+  text-decoration: underline;
+  float: right;
+}
+
+.invalid {
+  border-color: red;
+  outline-color: red;
+}

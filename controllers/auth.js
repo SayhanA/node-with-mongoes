@@ -21,6 +21,7 @@ const getLogin = (req, res, next) => {
     path: "/login",
     isAuthenticated: false,
     errorMessage: req.flash("error"),
+    errorField: req.flash("field"),
   });
 };
 
@@ -30,6 +31,7 @@ const postLogin = (req, res, next) => {
     .then((user) => {
       if (!user) {
         req.flash("error", "Invalid email or password");
+        req.flash("field", "email");
         return res.redirect("/login");
       }
 
@@ -45,6 +47,7 @@ const postLogin = (req, res, next) => {
             });
           } else {
             req.flash("error", "Invalid email or password");
+            req.flash("field", "password");
             return res.redirect("/login");
           }
         })

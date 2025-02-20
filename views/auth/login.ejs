@@ -1,54 +1,7 @@
 <%- include('../includes/head.ejs') %>
 <link rel="stylesheet" href="/styles/shop.css" />
-<style>
-  main {
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
-  }
-  section {
-    width: fit-content;
-    padding: 40px;
-    display: flex;
-    flex-flow: column;
-    gap: 20px;
-    align-items: center;
-    /* border: 1px solid gray;
-    border-radius: 20px; */
-  }
-  form {
-    width: 100%;
-    display: flex;
-    flex-flow: column;
-    gap: 20px;
-  }
+<link rel="stylesheet" href="/styles/form.css" />
 
-  form > div > label {
-    display: block;
-    width: 100%;
-  }
-
-  form > div > input {
-    width: 100%;
-    margin: 5px 0 0 0;
-    padding: 5px;
-  }
-
-  lavel[for="password"] {
-    margin-top: 10px;
-  }
-
-  .forgorPassword{
-    margin-left: auto;
-    width: fit-content;
-    color: blue;
-    font-size: small;
-    text-decoration: underline;
-    float: right;
-  }
-  
-</style>
 <head>
   <body>
     <%- include('../includes/nav.ejs') %>
@@ -61,7 +14,13 @@
           <%}%>
           <div>
             <label for="email">Email:</label>
-            <input type="text" name="email" id="email" placeholder="Email" />
+            <input
+              type="text"
+              name="email"
+              id="email"
+              placeholder="Email"
+              class="<%= errorField.find(e => e === 'email') ? 'invalid' : '' %>"
+            />
           </div>
 
           <div>
@@ -70,9 +29,10 @@
               type="text"
               name="password"
               id="password"
+              class="<%= errorField.find(e => e === 'password') ? 'invalid' : '' %>"
               placeholder="Password"
             />
-            <a href="/reset" class='forgorPassword'>Forgot password</a>
+            <a href="/reset" class="forgorPassword">Forgot password</a>
           </div>
 
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
