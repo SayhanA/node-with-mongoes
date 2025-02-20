@@ -70,6 +70,8 @@ const getSignUp = (req, res, next) => {
     path: "/signup",
     isAuthenticated: false,
     errorMessage: req.flash("error"),
+    oldInput: { name: "", email: "", password: "", confirm_password: "" },
+    validationError: [],
   });
 };
 
@@ -84,6 +86,8 @@ const postSignUp = (req, res, next) => {
       path: "/signup",
       isAuthenticated: false,
       errorMessage: validationError.array()[0].msg,
+      oldInput: req.body,
+      validationError: validationError.array(),
     });
   }
 
