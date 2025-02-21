@@ -6,18 +6,23 @@
     <main>
       <section>
         <h2>Add you product</h2>
+        <% if(errorMessage.length > 0){ %>
+        <div class="error"><%= errorMessage[0].msg %></div>
+        <%}%>
+        <br />
         <form
           action="<%if(edit){%>/admin/edit-product<%} else{%>/admin/add-product<%}%>"
           method="POST"
         >
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <input
             type="text"
             name="title"
             id="title"
             autocomplete="title"
             placeholder="Product Title"
-            value="<%= edit ? props.title : '' %>"
+            value="<%= edit || errorMessage.length > 0 ? props.title : '' %>"
+            class="<%= errorMessage.find(e => e.path === 'title') ? 'invalid' : '' %>"
           />
           <input
             type="text"
@@ -25,7 +30,8 @@
             id="imageUrl"
             autocomplete="imageUrl"
             placeholder="Image URL"
-            value="<%= edit ? props.imageUrl : '' %>"
+            value="<%= edit || errorMessage.length > 0 ? props.imageUrl : '' %>"
+            class="<%= errorMessage.find(e => e.path === 'imageUrl') ? 'invalid' : '' %>"
           />
           <input
             type="number"
@@ -33,14 +39,16 @@
             id="price"
             autocomplete="price"
             placeholder="Product Price"
-            value="<%= edit ? props.price : '' %>"
+            value="<%= edit || errorMessage.length > 0 ? props.price : '' %>"
+            class="<%= errorMessage.find(e => e.path === 'price') ? 'invalid' : '' %>"
           />
           <textarea
             name="description"
             id="description"
             placeholder="Product description"
+            class="<%= errorMessage.find(e => e.path === 'description') ? 'invalid' : '' %>"
           >
-<% if (edit) { %><%= props.description %><% } %></textarea
+<% if (edit || errorMessage.length > 0 ) { %><%= props.description %><% } %></textarea
           >
 
           <% if(edit){ %>

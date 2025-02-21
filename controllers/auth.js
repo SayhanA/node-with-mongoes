@@ -20,7 +20,7 @@ const getLogin = (req, res, next) => {
     pageTitle: "Login | shop",
     path: "/login",
     isAuthenticated: false,
-    errorMessage: "",
+    errorMessage: [],
     values: {email: "", password: ""}
   });
 };

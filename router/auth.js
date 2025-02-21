@@ -22,6 +22,8 @@ route.post(
   [
     body("email", "Please enter a valid email")
       .isEmail()
+      .trim()
+      .toLowerCase()
       .custom((value, { req }) => {
         return User.findOne({ email: value }).then((user) => {
           if (!user) {
@@ -58,6 +60,8 @@ route.post(
   [
     check("email")
       .isEmail()
+      .trim()
+      .toLowerCase()
       .withMessage("Please enter a valid email.")
       .custom((value, { req }) => {
         return User.findOne({ email: value }).then((user) => {
@@ -72,13 +76,16 @@ route.post(
       "Password must be at least 5 characters long and alphanumeric"
     )
       .isLength({ min: 5 })
+      .trim()
       .isAlphanumeric(),
-    body("confirm_password").custom((value, { req }) => {
-      if (value !== req.body.password) {
-        throw new Error("Passwords must match");
-      }
-      return true;
-    }),
+    body("confirm_password")
+      .trim()
+      .custom((value, { req }) => {
+        if (value !== req.body.password) {
+          throw new Error("Passwords must match");
+        }
+        return true;
+      }),
   ],
   postSignUp
 );

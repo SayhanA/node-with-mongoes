@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator");
 const Products = require("../models/products");
 
 const getProductForm = (req, res, next) => {
@@ -5,11 +6,12 @@ const getProductForm = (req, res, next) => {
     pageTitle: "Add Product Form",
     path: "/admin/add-product",
     edit: false,
+    errorMessage: [],
   });
 };
 
 const getProducts = (req, res, next) => {
-  Products.find({userId: req.user._id}) 
+  Products.find({ userId: req.user._id })
     .then((product) => {
       res.render("admin/products", {
         pageTitle: "products page | admin",
@@ -28,9 +30,23 @@ const postProduct = (req, res, next) => {
     price: req.body.price,
     userId: req.user,
   });
+
+  const error = validationResult(req);
+  console.log("Validation error form post product: ", error.array());
+
+  if (!error.isEmpty()) {
+    return res.render("admin/edit-product", {
+      pageTitle: "Add Product Form",
+      path: "/admin/add-product",
+      edit: false,
+      errorMessage: error.array(),
+      props: req.body,
+    });
+  }
+
   product
     .save()
-    .then((res) => console.log(res))
+    .then((res) => console.log("Post Product result: ", res))
     .catch((err) => {
       console.error(err);
     });
@@ -49,6 +65,7 @@ const getEditProduct = (req, res, next) => {
         path: "admin/edit-product",
         props: product,
         edit: editMode,
+        errorMessage: [],
       });
     })
     .catch((err) => {
@@ -58,6 +75,19 @@ const getEditProduct = (req, res, next) => {
 
 const postEditProduct = (req, res, next) => {
   const productId = req.body.id;
+  req.body._id = productId;
+
+  const error = validationResult(req);
+  if (!error.isEmpty()) {
+    return res.render("admin/edit-product", {
+      pageTitle: "Edit product page | admin",
+      path: "admin/edit-product",
+      props: req.body,
+      edit: true,
+      errorMessage: error.array(),
+    });
+  }
+
   Products.findById(productId)
     .then((product) => {
       console.log(product);

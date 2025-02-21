@@ -32,6 +32,10 @@ li {
   background-color: rgba(255, 0, 0, 0.106);
 }
 
+.invalid {
+  border-color: red;
+}
+
 .success {
   color: green;
   padding: 10px;
