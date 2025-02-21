@@ -10,27 +10,24 @@
         <h2>Login</h2>
         <form action="/login" method="POST">
           <% if(errorMessage.length > 0){ %>
-          <div class="error"><%= errorMessage %></div>
+          <div class="error"><%= errorMessage[0].msg %></div>
           <%}%>
           <div>
             <label for="email">Email:</label>
-            <input
-              type="text"
-              name="email"
-              id="email"
-              placeholder="Email"
-              class="<%= errorField.find(e => e === 'email') ? 'invalid' : '' %>"
-            />
+            <input type="text" name="email" id="email" placeholder="Email"
+            value="<%= values.email %>" class="<%= errorMessage.find(e => e.path
+            === "email") ? 'invalid': "" %>" />
           </div>
 
           <div>
             <label for="password">Password:</label>
             <input
-              type="text"
+              type="password"
               name="password"
               id="password"
-              class="<%= errorField.find(e => e === 'password') ? 'invalid' : '' %>"
               placeholder="Password"
+              value="<%= values.password %>"
+              class="<%= errorMessage.find(e => e.path === 'password') ? 'invalid' : '' %>"
             />
             <a href="/reset" class="forgorPassword">Forgot password</a>
           </div>

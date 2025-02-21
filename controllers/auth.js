@@ -20,44 +20,36 @@ const getLogin = (req, res, next) => {
     pageTitle: "Login | shop",
     path: "/login",
     isAuthenticated: false,
-    errorMessage: req.flash("error"),
-    errorField: req.flash("field"),
+    errorMessage: "",
+    values: {email: "", password: ""}
   });
 };
 
 const postLogin = (req, res, next) => {
   const { email, password } = req.body;
-  User.findOne({ email: email })
-    .then((user) => {
-      if (!user) {
-        req.flash("error", "Invalid email or password");
-        req.flash("field", "email");
-        return res.redirect("/login");
-      }
 
-      bcrypt
-        .compare(password, user.password)
-        .then((isMatch) => {
-          if (isMatch) {
-            req.session.isLoggedIn = true;
-            req.session.user = user;
-            req.session.save((err) => {
-              console.log(err);
-              return res.redirect("/");
-            });
-          } else {
-            req.flash("error", "Invalid email or password");
-            req.flash("field", "password");
-            return res.redirect("/login");
-          }
-        })
-        .catch((err) => {
+  const validationError = validationResult(req);
+  console.log("validation error from post login: ", validationError.array());
+
+  if (validationError.isEmpty()) {
+    return User.findOne({ email }).then((user) => {
+      req.session.isLoggedIn = true;
+      req.session.user = user;
+      return req.session
+        .save((err) => {
           console.log(err);
-        });
-    })
-    .catch((err) => {
-      throw new Error(err);
+          return res.redirect("/");
+        })
     });
+  }
+
+  res.render("auth/login", {
+    pageTitle: "Login | shop",
+    path: "/login",
+    isAuthenticated: false,
+    errorMessage: validationError.array(),
+    values: req.body
+  });
 };
 
 const postLogout = (req, res, next) => {

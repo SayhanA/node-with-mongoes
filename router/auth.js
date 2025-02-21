@@ -14,10 +14,42 @@ const route = require("express").Router();
 const { check, body } = require("express-validator");
 
 const User = require("../models/user");
-
+const bcrypt = require("bcryptjs");
 route.get("/login", getLogin);
 
-route.post("/login", postLogin);
+route.post(
+  "/login",
+  [
+    body("email", "Please enter a valid email")
+      .isEmail()
+      .custom((value, { req }) => {
+        return User.findOne({ email: value }).then((user) => {
+          if (!user) {
+            return Promise.reject("User is not valid");
+          }
+        });
+      }),
+    body("password", "password is not correct")
+      .isLength({ min: 5 })
+      .isAlphanumeric()
+      .custom((value, { req }) => {
+        return User.findOne({
+          email: req.body.email,
+        })
+          .then((user) => {
+            if (user) {
+              return bcrypt.compare(value, user.password);
+            }
+          })
+          .then((isMatch) => {
+            if (!isMatch) {
+              return Promise.reject("Password is not correct");
+            }
+          });
+      }),
+  ],
+  postLogin
+);
 
 route.get("/signup", getSignUp);
 
