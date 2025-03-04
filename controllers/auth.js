@@ -21,7 +21,7 @@ const getLogin = (req, res, next) => {
     path: "/login",
     isAuthenticated: false,
     errorMessage: [],
-    values: {email: "", password: ""}
+    values: { email: "", password: "" },
   });
 };
 
@@ -32,15 +32,16 @@ const postLogin = (req, res, next) => {
   console.log("validation error from post login: ", validationError.array());
 
   if (validationError.isEmpty()) {
-    return User.findOne({ email }).then((user) => {
-      req.session.isLoggedIn = true;
-      req.session.user = user;
-      return req.session
-        .save((err) => {
+    return User
+      .findOne({ email })
+      .then((user) => {
+        req.session.isLoggedIn = true;
+        req.session.user = user;
+        return req.session.save((err) => {
           console.log(err);
           return res.redirect("/");
-        })
-    });
+        });
+      });
   }
 
   res.render("auth/login", {
@@ -48,7 +49,7 @@ const postLogin = (req, res, next) => {
     path: "/login",
     isAuthenticated: false,
     errorMessage: validationError.array(),
-    values: req.body
+    values: req.body,
   });
 };
 
@@ -107,7 +108,9 @@ const postSignUp = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -155,8 +158,9 @@ const postReset = (req, res, next) => {
         });
       })
       .catch((err) => {
-        console.log(err);
-        req.flash("error", err.message);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
       });
   });
 };
@@ -176,7 +180,9 @@ const getNewPassword = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -211,7 +217,9 @@ const postNewPassword = (req, res, next) => {
       return res.redirect("/login");
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 

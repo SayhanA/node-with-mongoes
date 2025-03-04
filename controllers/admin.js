@@ -19,11 +19,16 @@ const getProducts = (req, res, next) => {
         path: "/admin/products",
       });
     })
-    .catch((err) => console.error(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 const postProduct = (req, res, next) => {
   const product = new Products({
+    // _id: new mongoose.Types.ObjectId("67b7a6fa1159273d4621f73a"),
     title: req.body.title,
     description: req.body.description,
     imageUrl: req.body.imageUrl,
@@ -48,10 +53,10 @@ const postProduct = (req, res, next) => {
     .save()
     .then((res) => console.log("Post Product result: ", res))
     .catch((err) => {
-      console.error(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
-
-  res.redirect("/");
 };
 
 const getEditProduct = (req, res, next) => {
@@ -69,7 +74,9 @@ const getEditProduct = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -79,7 +86,7 @@ const postEditProduct = (req, res, next) => {
 
   const error = validationResult(req);
   if (!error.isEmpty()) {
-    return res.render("admin/edit-product", {
+    return res.status("422").render("admin/edit-product", {
       pageTitle: "Edit product page | admin",
       path: "admin/edit-product",
       props: req.body,
@@ -104,7 +111,9 @@ const postEditProduct = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 

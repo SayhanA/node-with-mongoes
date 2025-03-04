@@ -15,6 +15,7 @@ const User = require("./models/user.js");
 const adminRoute = require("./router/admin.js");
 const shopRoute = require("./router/shop.js");
 const authRoute = require("./router/auth.js");
+const { get500 } = require("./controllers/500.js");
 
 // const MONGODBURI = `mongodb+srv://${process.env.DATABASE_NAME}:${process.env.DATABASE_PASSWORD}@sayhan.fatp7.mongodb.net/shop?retryWrites=true&w=majority&appName=Sayhan`;
 const MONGODBURI = "mongodb://localhost:27017/";
@@ -45,31 +46,39 @@ app.use(csrfProtection);
 app.use(flash());
 
 app.use((req, res, next) => {
+  (res.locals.isAuthenticated = req.session.isLoggedIn),
+    (res.locals.csrfToken = req.csrfToken()),
+    next();
+});
+
+app.use((req, res, next) => {
   if (!req.session.user) {
     return next();
   } else {
     User.findById(req.session.user._id)
       .then((user) => {
+        if (!user) {
+          return next();
+        }
         req.user = user;
         next();
       })
       .catch((err) => {
-        throw new Error(err);
+        next(new Error(err));
       });
   }
-});
-
-app.use((req, res, next) => {
-  (res.locals.isAuthenticated = req.session.isLoggedIn),
-    (res.locals.csrfToken = req.csrfToken()),
-    next();
 });
 
 app.use("/admin", adminRoute);
 app.use("/", shopRoute);
 app.use("/", authRoute);
 
+app.use("/500", get500);
 app.use(get404);
+
+app.use((error, req, res, next) => {
+  res.status(500).render("500", { pageTitle: "Error page", path: "/500" });
+});
 
 mongoes
   .connect(MONGODBURI)
