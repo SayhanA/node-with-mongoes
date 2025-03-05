@@ -7,6 +7,7 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
 const flash = require("connect-flash");
+const multer = require("multer");
 
 const PORT = process.env.PORT || 8000;
 const { get404 } = require("./controllers/404.js");
@@ -21,6 +22,7 @@ const { get500 } = require("./controllers/500.js");
 const MONGODBURI = "mongodb://localhost:27017/";
 
 const app = express();
+
 const store = new MongoDBStore({
   uri: MONGODBURI,
   collection: "session",
@@ -33,6 +35,8 @@ app.set("views", "views");
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParder.urlencoded({ extended: false }));
+app.use(multer({dest: 'images'}).single("image"));
+
 app.use(
   session({
     secret: "my secret",

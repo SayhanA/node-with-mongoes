@@ -27,11 +27,12 @@ const getProducts = (req, res, next) => {
 };
 
 const postProduct = (req, res, next) => {
+  console.log("image is: ", req.file);
   const product = new Products({
     // _id: new mongoose.Types.ObjectId("67b7a6fa1159273d4621f73a"),
     title: req.body.title,
     description: req.body.description,
-    imageUrl: req.body.imageUrl,
+    imageUrl: req.body.image,
     price: req.body.price,
     userId: req.user,
   });

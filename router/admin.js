@@ -28,7 +28,6 @@ route.post(
       .isLength({ max: 100 })
       .withMessage("Title must be maximux 100 characters")
       .trim(),
-    body("imageUrl", "Image URL is not valid").isURL(),
     body("price", "Price must be a flate number").isFloat({ min: 0.01 }),
     body(
       "description",
